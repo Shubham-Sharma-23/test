@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <style>
+        /*time text input widget*/
+        .slider-time-in-widget {
+            font-family: "Arial", sans-serif;
+            font-size: 10px;
+            color: #333;
+            overflow: hidden;
+            font-weight: bold;
+            margin-left: 10px;
+            margin-bottom: 5px;
+        }
+
+        /*Individual Slider outer box*/
+
+        .ui-slider-horizontal {
+            height: 30px;
+            background: #D7D7D7;
+            border: 1px solid #BABABA;
+            box-shadow: 0 1px 0 #FFF, 0 1px 0 #CFCFCF inset;
+            clear: both;
+            margin: 8px 0;
+            -webkit-border-radius: 6px;
+            -moz-border-radius: 6px;
+            -ms-border-radius: 6px;
+            -o-border-radius: 6px;
+            border-radius: 6px;
+        }
+
+        .ui-slider {
+            position: relative;
+            text-align: left;
+        }
+
+        .ui-slider-horizontal .ui-slider-range {
+            top: -1px;
+            height: 100%;
+        }
+        /*range slider css*/
+        .slider-range {
+            top: -1px;
+            height: 30px;
+        }
+
+        .ui-slider .ui-slider-range {
+            position: absolute;
+            z-index: 1;
+            height: 30px;
+            font-size: .7em;
+            display: block;
+            border: 1px solid #000000;
+            box-shadow: 0 1px 0 #bbce36 inset;
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            -khtml-border-radius: 6px;
+            border-radius: 6px;
+            background: #bbce36;
+            background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgi…pZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
+            background-size: 100%;
+            background-image: -webkit-gradient(linear, 50% 0, 50% 100%, color-stop(0%, #A0D4F5), color-stop(100%, #81B8F3));
+            background-image: -webkit-linear-gradient(top, #bbce36, #bbce36);
+            background-image: -moz-linear-gradient(top, #bbce36, #bbce36);
+            background-image: -o-linear-gradient(top, #bbce36, #bbce36);
+            background-image: linear-gradient(top, #bbce36, #bbce36);
+        }
+
+        /*range slider Handle*/
+        .ui-slider .ui-slider-handle {
+            border-radius: 5%;
+            background: transparent;
+            width: 20px;
+            height: 22px;
+        }
+
+        .ui-slider .ui-slider-handle {
+            position: absolute;
+            z-index: 2;
+            width: 2px;
+            height: 20px;
+            cursor: default;
+            border: none;
+            cursor: pointer;
+            border: 1px solid black;
+            margin-top: 5px;
+        }
+
+        span.ui-slider-handle.ui-state-default.ui-corner-all:first-of-type {
+            margin-left: 3px;
+        }
+
+        .ui-slider-horizontal .ui-slider-handle {
+            margin-left: -.6em;
+        }
+
+        .ui-slider a:focus {
+            outline: none;
+        }
+
+        #slider-range {
+            width: 90%;
+            margin: 0 auto;
+        }
+
+        .slider-time-in-widget {
+            font-size: 12px;
+            overflow: hidden;
+        }
+
+        table {
+        width:100%;
+        border:1px solid red;
+        }
+        .dayName{
+            width:15%;
+        }
+    </style>
+</head>
+<body>
+    <table id="table-widget">
+        <!--<tr>
+            <td class="dayName">Sunday</td>
+            <td >
+                <div id="custom-Hours-slider-widget"></div>
+            </td>
+        </tr>-->
+    </table>
+    <!--<div id="custom-Hours-slider-widget"></div>-->
+
+
+    <script>
+
+        $(document).ready(function () {
+            var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            for (x = 0; x <= 6; x++) { //creating the 7 div for 7 days
+                days[x];
+                $('#table-widget').append(
+                    "<tr><td class='dayName'>" + days[x] + "</td>  <td id='custom-Hours-slider-widget-"+days[x] + "' > </td >"
+                );
+                console.log(days[x]);
+                //Creating the div
+                var board = document.createElement('div');
+                //Attaching the class and id
+                board.className = "slider-range";
+                //assigning Id with day number
+                board.id = "slider-range-day" + x;
+                // Appending the newly created div to board
+                document.getElementById('custom-Hours-slider-widget-'+days[x]).appendChild(board);
+
+                var IndividualID = '#' + board.id;
+
+                //jquery slider functionality
+                $(IndividualID).slider(
+                    {
+                        range: true,
+                        min: 0,
+                        max: 1440,
+                        step: 15,
+                        values: [540, 1020],
+                        create: function (event, ui) {
+
+                            //$(IndividualID).append(
+                            //    "<p class='slider-time-in-widget'><span class='slider-time' id='slider-time" + board.id + "'  >8:00 AM</span> - <span class='slider-time2'>5:00 PM</span></p >"
+                            //);
+
+                            $(IndividualID + '> div.ui-slider-range.ui-widget-header.ui-corner-all').append(
+                                "<p class='slider-time-in-widget'><span class='slider-time' id='slider-time" + board.id + "'  >8:00 AM</span> - <span class='slider-time2' id='slider-time2" + board.id + "'>5:00 PM</span></p >"
+                            );
+                        },
+                        slide: function (e, ui) {
+                            console.log(this.id);
+
+                            var hours1 = Math.floor(ui.values[0] / 60);
+                            var minutes1 = ui.values[0] - (hours1 * 60);
+
+                            if (hours1.length == 1) hours1 = '0' + hours1;
+                            if (minutes1.length == 1) minutes1 = '0' + minutes1;
+                            if (minutes1 == 0) minutes1 = '00';
+                            if (hours1 >= 12) {
+                                if (hours1 == 12) {
+                                    hours1 = hours1;
+                                    minutes1 = minutes1 + " PM";
+                                } else {
+                                    hours1 = hours1 - 12;
+                                    minutes1 = minutes1 + " PM";
+                                }
+                            } else {
+                                hours1 = hours1;
+                                minutes1 = minutes1 + " AM";
+                            }
+                            if (hours1 == 0) {
+                                hours1 = 12;
+                                minutes1 = minutes1;
+                            }
+
+                            $('#slider-time' + this.id).html(hours1 + ':' + minutes1);
+
+                            var hours2 = Math.floor(ui.values[1] / 60);
+                            var minutes2 = ui.values[1] - (hours2 * 60);
+
+                            if (hours2.length == 1) hours2 = '0' + hours2;
+                            if (minutes2.length == 1) minutes2 = '0' + minutes2;
+                            if (minutes2 == 0) minutes2 = '00';
+                            if (hours2 >= 12) {
+                                if (hours2 == 12) {
+                                    hours2 = hours2;
+                                    minutes2 = minutes2 + " PM";
+                                } else if (hours2 == 24) {
+                                    hours2 = 11;
+                                    minutes2 = "59 PM";
+                                } else {
+                                    hours2 = hours2 - 12;
+                                    minutes2 = minutes2 + " PM";
+                                }
+                            } else {
+                                hours2 = hours2;
+                                minutes2 = minutes2 + " AM";
+                            }
+
+                            $('#slider-time2' + this.id).html(hours2 + ':' + minutes2);
+                        }
+                    });
+            }
+        });
+    </script>
+</body>
+</html>
